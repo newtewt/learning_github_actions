@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: set tag name
-        run: echo "::set-env name=MEDIC_URL::${GITHUB_REF#refs/tags/}"
+        run: echo "::set-env name=TAG_NAME::${GITHUB_REF#refs/tags/}"
       - name: Checkout
         run: echo 
       - name: Checkout
