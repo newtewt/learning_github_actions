@@ -1,0 +1,14 @@
+name: Scalability Workflow
+# This workflow is triggered on pushes to the repository.
+on:
+  create:
+    tags: 
+      - *-beta.*
+      
+jobs:
+  build:
+    name: Set up Medic on EC2 and Execute Jmeter on another EC2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start EC2 and Medics
+        run: echo ${GITHUB_REF#refs/heads/}
