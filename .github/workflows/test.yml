@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Start EC2 and Medics
-        run: echo ${GITHUB_REF#refs/heads/}
+        run: ../../echo_dood.sh
