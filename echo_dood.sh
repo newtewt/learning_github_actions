@@ -1,1 +1,1 @@
-echo  ${GITHUB_REF}
+echo  $GITHUB_REF
