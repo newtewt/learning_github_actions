@@ -10,8 +10,9 @@ jobs:
     name: Set up Medic on EC2 and Execute Jmeter on another EC2
     runs-on: ubuntu-latest
     steps:
-      env:
-        TAG_NAME: ${GITHUB_REF#refs/tags/}
+      - name: Checkout
+        env: 
+          TAG_NAME: ${GITHUB_REF#refs/tags/}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Start EC2 and Medics
