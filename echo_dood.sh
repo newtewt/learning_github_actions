@@ -1,1 +1,1 @@
-echo  ${GITHUB_REF#refs/heads/}
+echo  ${GITHUB_REF#refs/tags/}
