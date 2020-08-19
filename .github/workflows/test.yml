@@ -1,4 +1,4 @@
-name: Scalability Workflow
+name: Sample workflow
 # This workflow is triggered on pushes to the repository.
 on: push
       
@@ -8,10 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: set tag name
-        run: echo "::set-env name=TAG_NAME::${GITHUB_REF#refs/tags/}"
-      - name: Checkout
-        run: echo 
+        run: echo "::set-env name=TAG_NAME::${GITHUB_REF#refs/tags/}" 
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Start EC2 and Medics
+      - name: Run Echo Dood
         run: ./echo_dood.sh
