@@ -1,6 +1,9 @@
 name: Sample workflow
 # This workflow is triggered on pushes to the repository.
-on: push
+on:
+  create:
+    tags: 
+      - "*-beta.*"
       
 jobs:
   build:
