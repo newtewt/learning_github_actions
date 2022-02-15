@@ -17,22 +17,23 @@ on:
 jobs:
   set_vars:
     runs-on: ubuntu-latest
+    outputs:
+      project_name: ${{ steps.vars.outputs.project_name }}
+      labels: ${{ steps.vars.outputs.labels }}
     steps:
       - name: Set for Repo Dispatch
+        id: vars
         if: ${{ github.event_name == 'repository_dispatch' }}
-        run: |
-          PROJECT_NAME='${{ github.event.client_payload.project_name }}'
-          LABELS='${{ github.event.client_payload.labels }}'
-          echo "::set-output name=project_name::${PROJECT_NAME}"
-          echo "::set-output name=labels::${LABELS}"
-      - name: Set for Workflow Dispatch
-        if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           PROJECT_NAME=${{  github.event.inputs.name }}
           LABELS=${{ github.event.inputs.labels  }}
-          echo "::set-output name=project_name::${{ github.event.inputs.name }}"
+          if [ ${{ github.event_name }} == 'repository_dispatch'];
+          then
+            PROJECT_NAME='${{ github.event.client_payload.project_name }}'
+            LABELS='${{ github.event.client_payload.labels }}'
+          fi
+          echo "::set-output name=project_name::${PROJECT_NAME}"
           echo "::set-output name=labels::${LABELS}"
-
   create_project:
     needs: [set_vars]
     env: # Or as an environment variable
