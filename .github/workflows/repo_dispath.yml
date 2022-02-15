@@ -46,4 +46,4 @@ jobs:
       # - name: npm
       #   run: npm ci
       - name: Execute Script
-        run: echo '${{ needs.env.outputs.project_name }}' '${{ needs.env.outputs.labels }}'
+        run: echo '${{ needs.set_vars.outputs.project_name }}' '${{ needs.set_vars.outputs.labels }}'
