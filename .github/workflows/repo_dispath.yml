@@ -17,9 +17,6 @@ on:
 jobs:
   set_vars:
     runs-on: ubuntu-latest
-    outputs:
-      project_name: ${{ steps.vars.outputs.project_name }}
-      labels: ${{ steps.vars.outputs.labels }}
     steps:
       - name: Set for Repo Dispatch
         if: ${{ github.event_name == 'repository_dispatch' }}
@@ -33,7 +30,7 @@ jobs:
         run: |
           PROJECT_NAME=${{  github.event.inputs.name }}
           LABELS=${{ github.event.inputs.labels  }}
-          echo "::set-output name=project_name:::${{ github.event.inputs.name }}"
+          echo "::set-output name=project_name::${{ github.event.inputs.name }}"
           echo "::set-output name=labels::${LABELS}"
 
   create_project:
