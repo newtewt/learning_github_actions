@@ -1,14 +1,48 @@
 name: Downstream Job
 
 on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Project Name'
+        required: true
+        default: 'a test project'
+      labels:
+        description: 'Comma Separated list of labels'
+        required: true
+        default: 'Live Stream'
   repository_dispatch:
     types: [test_result]
 
 jobs:
-  run_if_failure:
-    if: ${{ !github.event.client_payload.passed }}
+  set_vars:
+    outputs:
+      project_name: ${{ steps.vars.outputs.project_name }}
+      labels: ${{ steps.vars.outputs.labels }}
+    steps:
+      name: Set for Repo Dispatch
+      if: ${{ github.event.client_payload.project_name }}
+      run: \
+        PROJECT_NAME=${{ github.event.client_payload.project_name }}
+        LABELS=${{ github.event.client_payload.labels }}
+        echo "::set-output name=project_name:: ${{ github.event.inputs.name }}"
+        echo "::set-output name=labels::${LABELS}"
+      name: Set for Workflow Dispatch
+      if: ${{  github.event.inputs.name }}
+      run: \
+        PROJECT_NAME=${{  github.event.inputs.name }}
+        LABELS=${{ github.event.inputs.labels  }}
+        echo "::set-output name=project_name:: ${{ github.event.inputs.name }}"
+        echo "::set-output name=labels::${LABELS}"
+
+  create_project:
+    needs: [set_vars]
+    env: # Or as an environment variable
+      GITHUBACCESSTOKEN: ${{ secrets.GITHUBACCESSTOKEN }}
     runs-on: ubuntu-latest
     steps:
-      - env:
-          MESSAGE: ${{ github.event.client_payload.message }}
-        run: echo $MESSAGE
+      - uses: actions/checkout@v2
+      - name: npm
+        run: npm ci
+      - name: Execute Script
+        run: echo '${{ needs.env.outputs.project_name }}' '${{ needs.env.outputs.labels }}'
