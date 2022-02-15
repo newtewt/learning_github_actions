@@ -24,8 +24,8 @@ jobs:
       - name: Set for Repo Dispatch
         if: ${{ github.event_name == 'repository_dispatch' }}
         run: |
-          PROJECT_NAME=${{ github.event.client_payload.project_name }}
-          LABELS=${{ github.event.client_payload.labels }}
+          PROJECT_NAME='${{ github.event.client_payload.project_name }}''
+          LABELS='${{ github.event.client_payload.labels }}'
           echo "::set-output name=project_name::${PROJECT_NAME}"
           echo "::set-output name=labels::${LABELS}"
       - name: Set for Workflow Dispatch
