@@ -21,14 +21,15 @@ jobs:
       labels: ${{ steps.vars.outputs.labels }}
     steps:
       - name: Set for Repo Dispatch
-      - if: ${{ github.event.client_payload.project_name }}
+        if: ${{ github.event_name }}
         run: |
+          echo ${{ github.event_name }}
           PROJECT_NAME=${{ github.event.client_payload.project_name }}
           LABELS=${{ github.event.client_payload.labels }}
           echo "::set-output name=project_name:::${{ github.event.inputs.name }}"
           echo "::set-output name=labels::${LABELS}"
       - name: Set for Workflow Dispatch
-      - if: ${{  github.event.inputs.name }}
+        if: ${{  github.event.inputs.name }}
         run: |
           PROJECT_NAME=${{  github.event.inputs.name }}
           LABELS=${{ github.event.inputs.labels  }}
