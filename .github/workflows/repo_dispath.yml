@@ -15,8 +15,8 @@ on:
     types: [test_result]
 
 jobs:
-  runs-on: ubuntu-latest
   set_vars:
+    runs-on: ubuntu-latest
     outputs:
       project_name: ${{ steps.vars.outputs.project_name }}
       labels: ${{ steps.vars.outputs.labels }}
