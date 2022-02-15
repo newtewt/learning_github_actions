@@ -1,4 +1,4 @@
-name: Sample workflow
+name: Downstream Job
 
 on:
   repository_dispatch:
