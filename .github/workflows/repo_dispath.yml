@@ -23,11 +23,10 @@ jobs:
     steps:
       - name: Set for Repo Dispatch
         id: vars
-        if: ${{ github.event_name == 'repository_dispatch' }}
         run: |
           PROJECT_NAME=${{  github.event.inputs.name }}
           LABELS=${{ github.event.inputs.labels  }}
-          if [ ${{ github.event_name }} == 'repository_dispatch'];
+          if [ ${{ github.event_name }} == 'repository_dispatch' ];
           then
             PROJECT_NAME='${{ github.event.client_payload.project_name }}'
             LABELS='${{ github.event.client_payload.labels }}'
