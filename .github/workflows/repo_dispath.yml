@@ -22,15 +22,14 @@ jobs:
       labels: ${{ steps.vars.outputs.labels }}
     steps:
       - name: Set for Repo Dispatch
-        if: ${{ github.event_name }}
+        if: ${{ github.event_name == 'repository_dispatch' }}
         run: |
-          echo ${{ github.event_name }}
           PROJECT_NAME=${{ github.event.client_payload.project_name }}
           LABELS=${{ github.event.client_payload.labels }}
           echo "::set-output name=project_name:::${{ github.event.inputs.name }}"
           echo "::set-output name=labels::${LABELS}"
       - name: Set for Workflow Dispatch
-        if: ${{  github.event.inputs.name }}
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           PROJECT_NAME=${{  github.event.inputs.name }}
           LABELS=${{ github.event.inputs.labels  }}
@@ -44,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: npm
-        run: npm ci
+      # - name: npm
+      #   run: npm ci
       - name: Execute Script
         run: echo '${{ needs.env.outputs.project_name }}' '${{ needs.env.outputs.labels }}'
